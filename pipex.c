@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anniegraetz <anniegraetz@student.42.fr>    +#+  +:+       +#+        */
+/*   By: agraetz <agraetz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 09:50:06 by anniegraetz       #+#    #+#             */
-/*   Updated: 2022/07/11 14:44:06 by anniegraetz      ###   ########.fr       */
+/*   Updated: 2022/07/12 14:36:24 by agraetz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
 void    childproc(char **argv, char **envp, int *fd);
+void    parentproc(char **argv, char **envp, int *fd);
 
 int main(int argc, char **argv, char **envp)
 {
@@ -45,9 +46,25 @@ void    childproc(char **argv, char **envp, int *fd)
     file1 = open(argv[1], O_RDONLY, 0777);//open and read file1
     if (file1 == -1)
         error();
-    dup2(fd[1], STDOUT_FILENO); //redirects outputs to the write end of the pipe
+    dup2(fd[1], STDOUT_FILENO);//redirects outputs to the write end of the pipe
     dup2(file1, STDIN_FILENO);//copies contents of file1 into input
     close(fd[0]);
     close(fd[1]);
+    execmd(argv[2], envp);//function to execute commands
+}
 
+void    parentproc(char **argv, char **envp, int *fd)
+{
+    int file2;
+
+    file2 = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0777);//create or open file2 ready to be read and written to and if there is already something in it, write over it
+    if (file2 == -1)
+    {
+        error();
+    }
+    dup2(fd[0], STDIN_FILENO);//inputs are sent to the read end of the pipe
+    dup2(file2, STDOUT_FILENO);//outputs are written to file2
+    close(fd[0]);
+    close(fd[1]);
+    execmd(argv[3], envp);//function to execute commands
 }
