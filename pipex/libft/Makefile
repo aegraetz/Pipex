@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: anniegraetz <anniegraetz@student.42.fr>    +#+  +:+       +#+         #
+#    By: agraetz <agraetz@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/01 15:35:43 by anniegraetz       #+#    #+#              #
-#    Updated: 2022/07/15 10:03:34 by anniegraetz      ###   ########.fr        #
+#    Updated: 2022/07/21 11:27:03 by agraetz          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
